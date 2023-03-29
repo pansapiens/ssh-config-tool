@@ -1,3 +1,5 @@
+name: build_binary_release
+
 on:
   release:
     types: [created]
@@ -10,18 +12,17 @@ jobs:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, linux/arm64, 
         # windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [linux, windows, darwin]
+        goos: [linux, darwin]
         goarch: ["386", amd64, arm64]
         exclude:
           - goarch: "386"
             goos: darwin
-          - goarch: arm64
-            goos: windows
+
     steps:
     - uses: actions/checkout@v3
     - uses: wangyoucao577/go-release-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         binary_name: "sshcfgtool"
